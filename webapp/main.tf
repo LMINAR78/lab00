@@ -55,10 +55,10 @@ data "aws_ami" "ubuntu" {
   filter {
     name = "name"
 
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
+    values = ["packer_ami*"]
   }
 
-  owners = ["099720109477"] # Canonical }
+  owners = ["056756896182"] # Canonical }
 }
 
 data "template_file" "Template" {
@@ -86,9 +86,10 @@ data "template_file" "Template" {
 } */
 
 resource "aws_launch_configuration" "aws_conf_ami" {
-  name_prefix                 = "aws_conf_ami"
-  #associate_public_ip_address = "true"
-  image_id                    = "${data.aws_ami.ubuntu.id}"
+  name_prefix = "aws_conf_ami"
+
+  associate_public_ip_address = "true"
+  image_id = "${data.aws_ami.ubuntu.id}"
 
   instance_type = "t2.micro"
 
