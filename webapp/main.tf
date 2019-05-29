@@ -29,9 +29,9 @@ resource "aws_security_group" "allow_all" {
   vpc_id = "${data.terraform_remote_state.rs-vpc.Main_VPC_ID}"
 
   ingress {
-    from_port = 8080
+    from_port = 80
 
-    to_port = 8080
+    to_port = 80
 
     protocol = "tcp"
 
@@ -86,9 +86,9 @@ data "template_file" "Template" {
 } */
 
 resource "aws_launch_configuration" "aws_conf_ami" {
-  name_prefix                 = "aws_conf_ami"
-  #associate_public_ip_address = "true"
-  image_id                    = "${data.aws_ami.ubuntu.id}"
+  name_prefix = "aws_conf_ami"
+
+  image_id = "${data.aws_ami.ubuntu.id}"
 
   instance_type = "t2.micro"
 
@@ -133,11 +133,11 @@ resource "aws_elb" "ELB" {
 
   ## Loadbalancer configuration
   listener {
-    instance_port = 8080
+    instance_port = 80
 
     instance_protocol = "http"
 
-    lb_port = 8080
+    lb_port = 80
 
     lb_protocol = "http"
   }
@@ -149,7 +149,7 @@ resource "aws_elb" "ELB" {
 
     timeout = 2
 
-    target = "HTTP:8080/"
+    target = "HTTP:80/"
 
     interval = 5
   }
